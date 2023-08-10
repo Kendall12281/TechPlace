@@ -1,0 +1,44 @@
+<div class="row">
+    <mat-card class="mb-25 techplace-card">
+        <mat-card-content>
+                <img src="assets/img/logo/logo_large.png"  width="100%" alt="user">
+        </mat-card-content>
+    </mat-card>
+</div>
+
+<div *ngIf="this.user!=null && this.user.nombre_rol=='ADMINISTRADOR'">
+    <app-dashboard_admin></app-dashboard_admin>
+</div>
+<div *ngIf="this.user!=null && (this.user.nombre_rol=='VENDEDOR'|| this.user.nombre_rol=='CLIENTE_VENDEDOR')">
+    <app-dashboard_vendedor></app-dashboard_vendedor>
+</div>
+<div *ngIf="this.user==null || this.user.nombre_rol=='CLIENTE' || this.user.nombre_rol=='CLIENTE_VENDEDOR'">
+<h4>Producto nuevos</h4>
+<div class="row">
+    <div *ngFor="let producto of productos" class="col-sm-6 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+        <mat-card class="mb-25 text-center techplace-card" style="height: 360px;">
+            <mat-card-content>
+                <div class="icon bg-gray mb-20 rounded-circle d-inline-block position-relative">
+                    <img *ngIf="producto.fotosproducto[0] != null && producto.fotosproducto[0] != undefined" src="{{producto.fotosproducto[0].foto_Base64}}" style="height: 100px;" class="ms-auto me-auto" alt="seller">
+                    <img *ngIf="producto.fotosproducto[0] == null || producto.fotosproducto[0] == undefined" src="../../../../../assets/img/misc/60x50.png" style="height: 100px;" class="ms-auto me-auto" alt="seller">
+                </div>
+                <h5 class="mb-5 fw-semibold">{{producto.nombre}}</h5>
+                <span class="d-block muted-color">{{producto.categorias?.nombre_categoria}}</span>
+                <div class="btn-box">
+                    <a mat-flat-button routerLink="/product/detail" [queryParams]="{ id: producto.producto_id }" class="gray">Ver detalle</a>
+                </div>
+                <ul class="list d-flex align-items-center justify-content-space-between text-center mb-0">
+                    <li class="muted-color fw-medium down">
+                        <span class="d-block">Disponibles</span>
+                        <span class="gray-color d-inline-block position-relative fw-semibold">{{producto.cantidad}}</span>
+                    </li>
+                    <li class="muted-color fw-medium">
+                        <span class="d-block">Precio</span>
+                        <span class="gray-color d-inline-block position-relative fw-semibold">₡{{producto.precio}}</span>
+                    </li>
+                </ul>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+</div>

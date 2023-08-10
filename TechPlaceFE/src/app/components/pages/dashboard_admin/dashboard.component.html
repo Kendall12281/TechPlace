@@ -1,0 +1,101 @@
+<div class="row">
+    <div fxFlex="33.333333%" fxFlex.xs="60%" class="col-4">
+        <mat-card class="single-stats-box techplace-card mb-25">
+            <div class="d-flex justify-content-space-between align-items-center">
+                <div class="title">
+                    <h3>{{cantidad_compras}}</h3>
+                    <span class="d-block gray-color">Cantidad compras de hoy</span>
+                </div>
+                <div class="icon">
+                    <i class="flaticon-donut-chart"></i>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+
+  
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <mat-card
+        class="mb-25 techplace-card new-customers-box">
+        <mat-card-header class="border-bottom">
+            <h5 class="mb-0">Top 5 productos más comprados en el mes</h5>
+        </mat-card-header>
+        <mat-card-content>
+            <ul class="m-0 p-0">
+
+                    <li *ngFor="let producto of productos_mas_comprados_mes">
+                        <div class="d-sm-flex align-items-center justify-content-space-between">
+                            <div class="user-info d-flex align-items-center">
+                                <div class="title">
+                                    <h5>{{producto.nombre}}</h5>
+                                    <span class="muted-color">Cantidad vendidos: {{producto.total_cantidad_vendidos_mes}}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+             
+            </ul>
+        </mat-card-content>
+    </mat-card>
+    </div>
+    <div class="col-lg-6">
+        <mat-card
+        class="mb-25 techplace-card new-customers-box">
+        <mat-card-header class="border-bottom">
+            <h5 class="mb-0">Top 5 vendedores con mejor evaluación</h5>
+        </mat-card-header>
+        <mat-card-content>
+            <ul class="m-0 p-0">
+                <li *ngFor="let vendedor of top_5_vendedores">
+                    <div class="d-sm-flex align-items-center justify-content-space-between">
+                        <div class="user-info d-flex align-items-center">
+                            <img src="assets/img/misc/60x50.png" alt="imagen">
+                            <div class="title">
+                                <h5>{{vendedor.nombre_completo}}</h5>
+                            </div>
+                        </div>
+                        <div class="info d-flex align-items-center">
+                            <div class="badge main-color">Promedio Evaluaciones: {{vendedor.avg_rating}}</div>
+                        </div>
+                    </div>
+                </li>
+              
+                
+              
+                
+            </ul>
+        </mat-card-content>
+    </mat-card>
+    </div>
+    <div class="col-lg-6">
+        <mat-card
+        class="mb-25 techplace-card new-customers-box">
+        <mat-card-header class="border-bottom">
+            <h5 class="mb-0">Top 5 peores vendedores evaluados</h5>
+        </mat-card-header>
+        <mat-card-content>
+            <ul class="m-0 p-0">
+                <li *ngFor="let peor of top_5_peores_vendedores">
+                    <div class="d-sm-flex align-items-center justify-content-space-between">
+                        <div class="user-info d-flex align-items-center">
+                            <img src="assets/img/misc/60x50.png" alt="imagen">
+                            <div class="title">
+                                <h5>{{peor.nombre_completo}}</h5>
+                            </div>
+                        </div>
+                        <div class="info d-flex align-items-center">
+                            <div class="badge main-color">Promedio Evaluaciones: {{peor.avg_rating || 0}}</div>
+                        </div>
+                    </div>
+                </li>
+               
+              
+            </ul>
+        </mat-card-content>
+    </mat-card>
+    </div>
+   
+</div>

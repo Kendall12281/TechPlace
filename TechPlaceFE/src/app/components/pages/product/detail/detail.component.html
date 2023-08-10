@@ -1,0 +1,118 @@
+<div class="breadcrumb-card mb-25 d-md-flex align-items-center justify-content-space-between">
+    <h5 class="mb-0">Detalle producto</h5>
+    <ol class="breadcrumb mb-0 ps-0">
+        <li class="breadcrumb-item">
+            <a routerLink="/">
+                <i class="ri-home-8-line"></i>
+                Inicio
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a routerLink="/product/list">
+                <i class="ri-home-8-line"></i>
+                Productos
+            </a>
+        </li>
+    </ol>
+</div>
+
+<mat-card class="mb-25 techplace-card">
+    <mat-card-content>
+        <div class="row align-items-center">
+            <div class="col-lg-12 col-md-12">
+                <div class="product-content">
+                    <h4>{{product?.nombre}}</h4>
+                    <p>{{product?.categoria_id_nombre}}</p>
+
+                    <ul class="info ps-0">
+                        <li class="fw-semibold d-inline-block position-relative border-radius">
+                            <i class="ri-money-dollar-circle-line"></i>
+                            <span class="fw-semibold gray-color d-block">Precio </span>
+                            ₡{{product?.precio}}
+                        </li>
+                        <li class="fw-semibold d-inline-block position-relative border-radius">
+                            <i class="ri-hashtag"></i>
+                            <span class="fw-semibold gray-color d-block">Disponible </span>
+                            {{product?.cantidad}}
+                        </li>
+                        <div class="col-4" *ngIf="!esVendedor">
+                            <div class="techplace-form-group">
+                                <mat-form-field appearance="fill">
+                                    <i class="ri-survey-line"></i>
+                                    <mat-label>Cantidad para agregar</mat-label>
+                                    <input matInput name="cantidad" type="text" pattern="[0-9]" maxLength="8"
+                                        [(ngModel)]="cantidad">
+                                </mat-form-field>
+                            </div>
+                            <button mat-flat-button class="default-btn techplace" (click)="addToCart()"
+                                style="height: 100%;">
+                                Agregar
+                            </button>
+                        </div>
+
+                    </ul>
+                    <span class="d-block fw-semibold mb-10">Descripción</span>
+                    <p>{{product?.descripcion}}</p>
+                </div>
+            </div>
+        </div>
+        <mat-tab-group class="product-tabs" mat-stretch-tabs="false" mat-align-tabs="start" animationDuration="0ms">
+            <mat-tab *ngIf="product?.fotosproducto != null" label="Imagenes">
+                <img *ngFor="let foto of product?.fotosproducto" src="{{foto?.foto_Base64}}"
+                    style="height: 100px; margin: 10px;" />
+            </mat-tab>
+            <mat-tab *ngIf="product?.preguntasproducto != null" label="Comentarios">
+                <div class="row d-flex" style="display: flex;" *ngIf="esCliente">
+                    <div class="col-10 techplace-form-group">
+                        <mat-form-field appearance="fill">
+                            <i class="ri-survey-line"></i>
+                            <mat-label>Agregar comentario</mat-label>
+                            <input matInput [(ngModel)]="pregunta">
+                        </mat-form-field>
+
+                    </div>
+                    <div class="col-2">
+                        <button mat-flat-button class="default-btn techplace" (click)="HacerPreguntaCliente()"
+                            style="height: 100%;">
+                            Enviar
+                        </button>
+                    </div>
+                </div>
+                <div class="col-8 messages-list">
+                    <div *ngFor="let pregunta of product?.preguntasproducto"
+                        class="single-message position-relative d-flex align-items-center justify-content-space-between">
+                        <div class="content d-flex align-items-center">
+                            <div class="img position-relative me-15">
+                                <span class="active-status"></span>
+                            </div>
+                            <div class="title">
+                                <h5>Cliente</h5>
+                                <p>{{pregunta.comentario_usuario}}</p>
+                                <br>
+                                <h5>Vendedor</h5>
+
+                                <div *ngIf="esVendedorDelProducto && ExisteRespuestaVendedor(pregunta.respuesta_vendedor)"
+                                    style="width: 100%;">
+                                    <input type="text"
+                                        style=" width: 450px; height: 50px; margin-right: 1rem; border:solid 2px #8dbfe6; border-radius: 3px;" id="{{pregunta.preguntas_producto_id}}">
+                                    <button mat-flat-button class="default-btn techplace"
+                                        style="height: 100%; padding: .5rem!important;" (click)="EnviarRespuestaVendedor(pregunta.preguntas_producto_id)">
+                                        Enviar Respuesta
+                                    </button>
+                                </div>
+
+                                <div *ngIf="!esVendedorDelProducto">
+                                    <p>{{pregunta.respuesta_vendedor}}</p>
+                                </div>
+                                <div *ngIf="esVendedorDelProducto">
+                                    <p>{{pregunta.respuesta_vendedor}}</p>
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </mat-card-content>
+</mat-card>

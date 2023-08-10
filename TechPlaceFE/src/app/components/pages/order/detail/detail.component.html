@@ -1,0 +1,213 @@
+<div class="breadcrumb-card mb-25 d-md-flex align-items-center justify-content-space-between">
+    <h5 class="mb-0">Detalle pedido</h5>
+    <ol class="breadcrumb mb-0 ps-0">
+        <li class="breadcrumb-item">
+            <a routerLink="/">
+                <i class="ri-home-8-line"></i>
+                Inicio
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a routerLink="/order/list">
+                <i class="ri-home-8-line"></i>
+                Pedidos
+            </a>
+        </li>
+        <li class="breadcrumb-item fw-semibold">Pedido detalle</li>
+    </ol>
+</div>
+
+<mat-card class="mb-25 techplace-card">
+    <mat-card-header>
+        <h5 class="mb-0">Pedido detalle</h5>
+        <div class="d-flex align-items-center">
+            <!-- <form class="search-box position-relative me-15 d-none d-md-block">
+                <input type="text" class="input-search d-block" placeholder="Filtrar">
+                <button type="submit"><i class="ri-search-line"></i></button>
+            </form> -->
+        </div>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="mat-elevation-z8 techplace-mat-table">
+            <table mat-table [dataSource]="dataSource" style="table-layout: fixed;">
+
+                <ng-container matColumnDef="Producto">
+                    <th mat-header-cell *matHeaderCellDef class="text-start">Producto</th>
+                    <td mat-cell *matCellDef="let element" class="text-start">
+                        <div class="d-flex align-items-center">
+                            <a class="d-flex align-items-center product-info" style="white-space: nowrap; 
+                            overflow: hidden; 
+                            text-overflow: ellipsis;     margin-right: 0;">
+                                {{element?.productos?.nombre}}
+                            </a>
+                        </div>
+                    </td>
+
+                </ng-container>
+                <ng-container matColumnDef="Proveedor">
+                    <th mat-header-cell *matHeaderCellDef>Proveedor ID</th>
+                    <td mat-cell *matCellDef="let element">{{element?.productos?.usuario_id}}</td>
+                </ng-container>
+                <!-- 
+                <ng-container matColumnDef="Nombre">
+                    <th mat-header-cell *matHeaderCellDef>Nombre Vendedor</th>
+                    <td mat-cell *matCellDef="let element">{{element.cantidad}}</td>
+                </ng-container> -->
+
+
+                <ng-container matColumnDef="Cantidad">
+                    <th mat-header-cell *matHeaderCellDef>Cantidad</th>
+                    <td mat-cell *matCellDef="let element">{{element.cantidad}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="Subtotal">
+                    <th mat-header-cell *matHeaderCellDef>Subtotal</th>
+                    <td mat-cell *matCellDef="let element">₡{{element.subtotal}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="Impuesto">
+                    <th mat-header-cell *matHeaderCellDef>Impuesto</th>
+                    <td mat-cell *matCellDef="let element">₡{{element.impuesto}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="Total">
+                    <th mat-header-cell *matHeaderCellDef>Total</th>
+                    <td mat-cell *matCellDef="let element">₡{{element.total}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="Accion">
+                    <th mat-header-cell *matHeaderCellDef>Estado</th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-flat-button class="default-btn techplace small"
+                            *ngIf="estado_pedido_id == 1 && esVendedor" (click)="modalAbierta = true">
+                            Entregar
+                        </button>
+                        <button mat-flat-button class="default-btn techplace small"
+                            *ngIf="estado_pedido_id == 3 && esVendedor" disabled>
+                            Entregado
+                        </button>
+                        <span *ngIf="!esVendedor">
+                            {{estado}}
+                        </span>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[3, 6, 9]" showFirstLastButtons>
+            </mat-paginator>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+<button mat-flat-button class="default-btn techplace"
+    *ngIf="!esVendedor && estado_pedido_id == 3 && !existeEvaluacionCliente" (click)="modalAbierta = true"
+    style="height: 100%; margin-bottom: 1rem;">
+    Evaluar Vendedor
+</button>
+<button mat-flat-button class="default-btn techplace" *ngIf="!esVendedor &&  existeEvaluacionCliente"
+    style="height: 100%; margin-bottom: 1rem;" disabled>
+    Evaluacion Realizada Cliente
+</button>
+<button mat-flat-button class="default-btn techplace" *ngIf="esVendedor &&  existeEvaluacionVendedor"
+    style="height: 100%; margin-bottom: 1rem;" disabled>
+    Evaluacion Realizada Vendedor
+</button>
+
+
+<div class="row">
+    <div class="col-lg-4 col-md-6">
+        <mat-card class="mb-25 techplace-card">
+            <mat-card-header class="border-bottom">
+                <h5 class="mb-0">Información de compra</h5>
+            </mat-card-header>
+            <mat-card-content class="box">
+                <ul class="list ps-0 mb-0 mt-0">
+                    <li class="gray-color position-relative">
+                        <span class="fw-medium d-inline-block">Metodo pago :</span>
+                        {{pedido?.metodospago.tipo_pago}}
+                    </li>
+                    <li class="gray-color position-relative">
+                        <span class="fw-medium d-inline-block">Subtotal :</span>
+                        ₡{{subtotal}}
+                    </li>
+                    <li class="gray-color position-relative">
+                        <span class="fw-medium d-inline-block">Impuesto :</span>
+                        ₡{{impuesto}}
+                    </li>
+                    <li class="gray-color position-relative">
+                        <span class="fw-medium d-inline-block">Total :</span>
+                        ₡{{total}}
+                    </li>
+                </ul>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div class="col-lg-4 col-md-6">
+        <mat-card class="mb-25 techplace-card">
+            <mat-card-header class="border-bottom">
+                <h5 class="mb-0">Información de entrega</h5>
+            </mat-card-header>
+            <mat-card-content class="box">
+                <ul class="list ps-0 mb-0 mt-0">
+                    <li class="gray-color position-relative">
+                        <span class="fw-medium d-inline-block">Dirección :</span>
+                        {{pedido?.direcciones.provincia}}
+                        {{pedido?.direcciones.canton}}
+                        {{pedido?.direcciones.distrito}}
+                    </li>
+                    <li class="gray-color position-relative">
+                        <span class="fw-medium d-inline-block">Dirección exacta :</span>
+                        {{pedido?.direcciones.direccion_exacta}}
+                    </li>
+                    <li class="gray-color position-relative">
+                        <span class="fw-medium d-inline-block">Telefono :</span>
+                        {{pedido?.direcciones.telefono}}
+                    </li>
+                </ul>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal" *ngIf=" modalAbierta">
+    <div class="modal-content">
+        <div style="display: flex; justify-content: center; margin-bottom: 2rem;">
+
+            <h1>Agregar Evaluacion</h1>
+        </div>
+        <form>
+            <div style="display: flex; justify-content: center; margin-bottom: 2rem; width: 100%;">
+
+                <input matInput type="number" name="calificacion" [(ngModel)]="review.calificacion"
+                    placeholder="Ingresar calificacion ">
+            </div>
+
+            <div style="display: flex; justify-content: center; margin-bottom: 2rem;">
+
+                <div class="col-10 techplace-form-group">
+                    <mat-form-field appearance="fill">
+                        <i class="ri-survey-line"></i>
+                        <mat-label>Agregar comentario</mat-label>
+                        <input name="comentario" [(ngModel)]="review.comentario" matInput>
+                    </mat-form-field>
+
+                </div>
+            </div>
+            <div style="display: flex; justify-content: space-around; ">
+
+                <button mat-flat-button class="default-btn"
+                    style="height: 100%; margin-bottom: 1rem; width: 45%; background-color: #8dbfe6;"
+                    (click)="EnviarCalificacion()">
+                    Enviar Evaluacion
+                </button>
+                <button mat-flat-button class="default-btn " style="height: 50%; margin-bottom: 1rem; width: 45%;"
+                    (click)="modalAbierta = false">
+                    Cerrar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

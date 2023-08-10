@@ -1,0 +1,322 @@
+<div class="breadcrumb-card mb-25 d-md-flex align-items-center justify-content-space-between">
+    <h5 class="mb-0">Gestión Usuario</h5>
+    <ol class="breadcrumb mb-0 ps-0">
+        <li class="breadcrumb-item">
+            <a routerLink="/">
+                <i class="ri-home-8-line"></i>
+                Inicio
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a routerLink="/maintenance/user">
+                <i class="ri-home-8-line"></i>
+                Gestión de usuario
+            </a>
+        </li>
+    </ol>
+</div>
+<mat-card class="mb-25 techplace-card">
+    <mat-card-content>
+        <form>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="techplace-form-group">
+                        <mat-form-field appearance="fill">
+                            <i class="ri-user-3-line"></i>
+                            <mat-label>Nombre</mat-label>
+                            <input matInput name="nombre_completo" [(ngModel)]="user.nombre_completo">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="techplace-form-group">
+                        <mat-form-field appearance="fill">
+                            <i class="ri-user-3-line"></i>
+                            <mat-label>Identificación</mat-label>
+                            <input matInput name="identificacion" [(ngModel)]="user.identificacion">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="techplace-form-group">
+                        <mat-form-field appearance="fill">
+                            <i class="ri-mail-line"></i>
+                            <mat-label>Correo Electronico</mat-label>
+                            <input matInput name="correo_electronico" [(ngModel)]="user.correo_electronico">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="techplace-form-group">
+                        <mat-form-field appearance="fill">
+                            <i class="ri-phone-line"></i>
+                            <mat-label>Telefono</mat-label>
+                            <input matInput name="numero_telefono" type="text" pattern="[0-9]" maxLength="8"
+                                [(ngModel)]="user.numero_telefono">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="techplace-form-group without-icon">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Contraseña</mat-label>
+                            <input matInput [type]="hide ? 'password' : 'text'" name="contrasena"
+                                [(ngModel)]="user.contrasena">
+                            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                                [attr.aria-pressed]="hide">
+                                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                            </button>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="techplace-form-group without-icon">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Repetir Contraseña</mat-label>
+                            <input matInput [type]="hide ? 'password' : 'text'" name="contrasena_repetir"
+                                [(ngModel)]="user.contrasena_repetir">
+                            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                                [attr.aria-pressed]="hide">
+                                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                            </button>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="techplace-form-group without-icon">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Tipo Perfil</mat-label>
+                            <mat-select name="tipo_perfil" [(ngModel)]="user.tipo_perfil">
+                                <mat-option value="ADMINISTRADOR">Administrador</mat-option>
+                                <mat-option value="CLIENTE">Cliente</mat-option>
+                                <mat-option value="VENDEDOR">Vendedor</mat-option>
+                                <mat-option value="CLIENTE_VENDEDOR">Cliente Vendedor</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+
+                      
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="techplace-form-group without-icon">
+
+                        <mat-form-field appearance="fill">
+                            <mat-label>Estado Usuario</mat-label>
+                            <mat-select name="tipo_perfil" [(ngModel)]="user.desactivado">
+                                <mat-option value="true">Desactivado</mat-option>
+                                <mat-option value="false">Activado</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                </div>
+
+
+
+                <div *ngIf="mensaje_usuario != ''" class="row justify-content-center">
+                    <div class="alert ">
+                        <p style="color: red;">{{mensaje_usuario}}</p>
+                    </div>
+                </div>
+                <label style="margin-bottom:5px;">Agregar ubicación</label>
+                <div class="col-12 d-flex">
+                    <div class="col-3" *ngIf="lista_provincia != null && lista_provincia.length > 0">
+                        <div class="techplace-form-group without-icon" style="margin-right:5px;">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Provincia</mat-label>
+                                <mat-select (selectionChange)="onSelectionChangeProvincia($event)"
+                                    name="provincia_select" [(ngModel)]="direccion_data.provinciaid">
+                                    <mat-option *ngFor="let provincia of lista_provincia"
+                                        value="{{provincia.id}}">{{provincia.nombre}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-3" *ngIf="direccion_data.provinciaid!=''">
+                        <div class="techplace-form-group without-icon" style="margin-right:5px;">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Canton</mat-label>
+                                <mat-select (selectionChange)="onSelectionChangeCanton($event)" name="canton_select"
+                                    [(ngModel)]="direccion_data.cantonid">
+                                    <mat-option *ngFor="let canton of lista_canton"
+                                        value="{{canton.id}}">{{canton.nombre}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-3" *ngIf="direccion_data.cantonid!=''">
+                        <div class="techplace-form-group without-icon" style="margin-right:5px;">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Distrito</mat-label>
+                                <mat-select name="distrito_select" [(ngModel)]="direccion_data.distritoid">
+                                    <mat-option *ngFor="let distrito of lista_distrito"
+                                        value="{{distrito.id}}">{{distrito.nombre}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-3" *ngIf="direccion_data.distritoid!=''">
+                        <div class="techplace-form-group">
+                            <mat-form-field appearance="fill">
+                                <i class="ri-hashtag"></i>
+                                <mat-label>Codigo postal</mat-label>
+                                <input matInput matInput name="codigo_postal"
+                                    [(ngModel)]="direccion_data.codigo_postal">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 d-flex" *ngIf="direccion_data.distritoid!=''">
+                    <div class="col-8">
+                        <div class="techplace-form-group" style="margin-right:5px;">
+                            <mat-form-field appearance="fill">
+                                <i class="ri-road-map-fill"></i>
+                                <mat-label>Direccion exacta</mat-label>
+                                <input matInput name="direccion_exacta" [(ngModel)]="direccion_data.direccion_exacta">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="techplace-form-group" style="margin-right:5px;">
+                            <mat-form-field appearance="fill">
+                                <i class="ri-phone-line"></i>
+                                <mat-label>Telefono</mat-label>
+                                <input matInput name="direccion_data_telefono" [(ngModel)]="direccion_data.telefono">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <button mat-flat-button class="techplace fw-semibold" style="font-size: 30px!important;"
+                            (click)="addLocation()">
+                            <i class="ri-add-circle-line"></i>
+                        </button>
+                    </div>
+                </div>
+                <div *ngIf="mensaje_direccion != ''" class="rpw justify-content-center">
+                    <div class="alert ">
+                        <p style="color: red;">{{mensaje_direccion}}</p>
+                    </div>
+                </div>
+                <!-- Lista ubicacion -->
+                <mat-card class="mb-25 techplace-card" *ngIf="lista_direccion != null && lista_direccion.length > 0">
+                    <mat-card-content>
+                        <label style="margin-bottom:5px;">Lista de ubicaciones</label>
+                        <div class="col-12 d-flex container-scroll-x">
+                            <div *ngFor="let ubicacion of lista_direccion">
+                                <div *ngIf="ubicacion.eliminado != true" class="col-12 container-item"
+                                    style="margin-right: 4px;">
+                                    <div class="col-12 d-flex">
+                                        <div class="col-9">
+                                            {{ubicacion.provincia}}, {{ubicacion.canton}}, {{ubicacion.distrito}} /
+                                            ZIP:{{ubicacion.codigo_postal}} / Telefono:{{ubicacion.telefono}}
+                                        </div>
+                                        <div class="col-3">
+                                            <button mat-flat-button class="techplace btn-red"
+                                                (click)="deleteLocation(ubicacion)">
+                                                <i class="ri-delete-bin-5-fill"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        Dirección exacta: {{ubicacion.direccion_exacta}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+
+                <label style="margin-bottom:5px;">Agregar metodo pago</label>
+                <div class="col-12 d-flex">
+                    <div class="col-2">
+                        <div class="techplace-form-group without-icon" style="margin-right:5px;">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Tipo Pago</mat-label>
+                                <mat-select name="tipo_metodo_pago" [(ngModel)]="metodo_pago_data.tipo_pago">
+                                    <mat-option value="Efectivo">Efectivo</mat-option>
+                                    <mat-option value="Tarjeta">Tarjeta</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-2" *ngIf="metodo_pago_data.tipo_pago == 'Tarjeta'">
+                        <div class="techplace-form-group without-icon" style="margin-right:5px;">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Tipo tarjeta</mat-label>
+                                <mat-select name="tipo_tarjeta" [(ngModel)]="metodo_pago_data.proveedor">
+                                    <mat-option value="VISA">VISA</mat-option>
+                                    <mat-option value="Mastercard">Mastercard</mat-option>
+                                    <mat-option value="American Express">American Express</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-2" *ngIf="metodo_pago_data.tipo_pago == 'Tarjeta'">
+                        <div class="techplace-form-group without-icon" style="margin-right:5px;">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Numero tarjeta</mat-label>
+                                <input matInput name="numero_cuenta" [(ngModel)]="metodo_pago_data.numero_cuenta">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-2" *ngIf="metodo_pago_data.tipo_pago == 'Tarjeta'">
+                        <div class="techplace-form-group without-icon" style="margin-right:5px;">
+                            <mat-form-field appearance="fill">
+                                <i class="ri-phone-line"></i>
+                                <mat-label>Fecha expiracion</mat-label>
+                                <input matInput name="fecha_expiracion" [(ngModel)]="metodo_pago_data.fecha_expiracion">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-2" *ngIf="metodo_pago_data.tipo_pago != ''">
+                        <button mat-flat-button class="techplace fw-semibold" style="font-size: 30px!important;"
+                            (click)="addPayMethod()">
+                            <i class="ri-add-circle-line"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div *ngIf="mensaje_metodo_pago != ''" class="rpw justify-content-center">
+                    <div class="alert ">
+                        <p style="color: red;">{{mensaje_metodo_pago}}</p>
+                    </div>
+                </div>
+                <!-- Lista metodo pago -->
+                <mat-card class="mb-25 techplace-card"
+                    *ngIf="lista_metodo_pago != null && lista_metodo_pago.length > 0">
+                    <mat-card-content>
+                        <label style="margin-bottom:5px;">Lista de metodos de pago</label>
+                        <div class="col-12 d-flex container-scroll-x">
+                            <div *ngFor="let metodo of lista_metodo_pago">
+                                <div *ngIf="metodo.eliminado != true" style="padding-right: 60px;"
+                                    class="col-12 container-item">
+                                    <div class="col-12 d-flex">
+                                        <div class="col-9">
+                                            Tipo pago: {{metodo.tipo_pago}}
+                                            <span *ngIf="metodo.tipo_pago != 'Efectivo'">/ Tipo Tarjeta:
+                                                {{metodo.proveedor}} / Numero tarjeta: {{metodo.numero_cuenta}} /
+                                                Expira: {{metodo.fecha_expiracion}}</span>
+                                        </div>
+                                        <div class="col-3">
+                                            <button mat-flat-button class="techplace btn-red"
+                                                (click)="deletePayMethod(metodo)">
+                                                <i class="ri-delete-bin-5-fill"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </mat-card-content>
+                </mat-card>
+            </div>
+
+        </form>
+    </mat-card-content>
+
+
+    <button mat-flat-button class="techplace floating-btn" (click)="save()">
+        <i class="ri-save-3-fill icon-float"></i>
+    </button>

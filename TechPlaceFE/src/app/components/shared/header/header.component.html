@@ -1,0 +1,98 @@
+<header
+    class="header-area bg-white border-bottom-radius box-shadow mb-25"
+    [ngClass]="{'active': isToggled, 'sticky': isSticky}"
+    [class.dark-header]="true">
+    <div class="d-md-flex align-items-center justify-content-space-between">
+        <div class="header-left-side d-flex align-items-center">
+            <div class="burger-menu" (click)="toggle()" [ngClass]="{'active': isToggled}">
+                <span class="top-bar"></span>
+                <span class="middle-bar"></span>
+                <span class="bottom-bar"></span>
+            </div>
+            <form class="search-box position-relative" *ngIf="user==null || (user.nombre_rol == 'CLIENTE' || user.nombre_rol == 'CLIENTE_VENDEDOR')" >
+                <input type="text" name="searchBox" [(ngModel)]="searchText" (input)="updateSearchText($event)" class="input-search d-block" placeholder="Buscar articulo">
+                <button type="submit" (click)="search()"><i class="ri-search-line"></i></button>
+            </form>
+
+        </div>
+        <ul class="header-right-side d-flex align-items-center mt-0 mb-0">
+            <li *ngIf="user==null || (user.nombre_rol == 'CLIENTE' || user.nombre_rol == 'CLIENTE_VENDEDOR')">
+                <button mat-icon-button [matMenuTriggerFor]="notificationMenu" class="btn p-0 border-none rounded-circle position-relative" [ngClass]="{'notification-btn': carrito.length != 0}">
+                    <i class="flaticon-shopping-cart-2"></i>
+                </button>
+                <mat-menu class="menu-dropdown" #notificationMenu="matMenu" xPosition="before" >
+                    <div class="menu-header d-flex align-items-center justify-content-space-between">
+                        <h5 class="m-0">Carrito</h5>
+                    </div>
+                    <ul class="menu-body">
+                        <li *ngIf="carrito.length == 0" class="position-relative">
+                            <div class="d-flex">
+                                <i class="flaticon-info icon"></i>
+                                <div class="title">
+                                    <h6>No se han agregado articulos</h6>
+                                </div>
+                            </div>
+                        </li>
+                        <li *ngFor="let itemCarrito of carrito" style="cursor: default;" class="position-relative">
+                            <div class="d-flex">
+                                <i class="flaticon-box icon"></i>
+                                <div class="title">
+                                    <h6>{{itemCarrito.producto_nombre}}</h6>
+                                    <span><i class="flaticon-timer"></i>Cantidad: {{itemCarrito.cantidad}}</span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div *ngIf="carrito.length != 0 && user!=null" class="menu-footer">
+                        <a routerLink="/order/cart" class="fw-medium position-relative">Ver todo <i class="flaticon-chevron"></i></a>
+                    </div>
+                    <div *ngIf="carrito.length != 0 && user==null" class="menu-footer">
+                        <span style="color: red;">Inicie sesión para continuar</span>
+                    </div>
+                </mat-menu>
+            </li>
+            <li *ngIf="user !== null">
+                <button mat-icon-button [matMenuTriggerFor]="profileMenu" class="profile-btn main-color border-none bg-transparent position-relative">
+                    <img src="assets/img/misc/admin.jpg" class="rounded-circle" alt="admin">
+                    {{user.nombre_rol}}
+                    <span class="fw-semibold">{{user.nombre_completo}}</span>
+                </button>
+                <mat-menu class="profile-menu-dropdown" #profileMenu="matMenu" xPosition="before">
+                    <ul class="m-0">
+                        <li>
+                            <a routerLink="/profile">
+                                <i class="ri-user-3-line"></i> Perfil
+                            </a>
+                        </li>
+                        <li>
+                            <a (click)="logout()" style="cursor:pointer;">
+                                <i class="ri-shut-down-line"></i> Cerrar sesión
+                            </a>
+                        </li>
+                    </ul>
+                </mat-menu>
+            </li>
+            <li *ngIf="user === null">
+                <button mat-icon-button [matMenuTriggerFor]="profileMenu" class="profile-btn main-color border-none bg-transparent position-relative">
+                    <img src="assets/img/misc/admin.jpg" class="rounded-circle" alt="admin">
+                    Invitado
+                    <span class="fw-semibold">Iniciar sesión</span>
+                </button>
+                <mat-menu class="profile-menu-dropdown" #profileMenu="matMenu" xPosition="before">
+                    <ul class="m-0">
+                        <li>
+                            <a routerLink="/authentication/login">
+                                <i class="ri-login-circle-line"></i> Iniciar sesión
+                            </a>
+                        </li>
+                        <li>
+                            <a routerLink="/authentication/register">
+                                <i class="ri-survey-line"></i> Registrarse
+                            </a>
+                        </li>
+                    </ul>
+                </mat-menu>
+            </li>
+        </ul>
+    </div>
+</header>

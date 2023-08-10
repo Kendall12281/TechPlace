@@ -1,0 +1,109 @@
+<div class="breadcrumb-card mb-25 d-md-flex align-items-center justify-content-space-between">
+    <h5 class="mb-0">Gestión Producto</h5>
+    <ol class="breadcrumb mb-0 ps-0">
+        <li class="breadcrumb-item">
+            <a routerLink="/">
+                <i class="ri-home-8-line"></i>
+                Inicio
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a routerLink="/product/management">
+                <i class="ri-home-8-line"></i>
+                Gestión de producto
+            </a>
+        </li>
+    </ol>
+</div>
+<mat-card class="mb-25 techplace-card">
+    <mat-card-content>
+        <form #form="ngForm">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="techplace-form-group">
+                        <mat-form-field appearance="fill">
+                            <i class="ri-text"></i>
+                            <mat-label>Nombre</mat-label>
+                            <input matInput name="nombre" [(ngModel)]="producto.nombre">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="techplace-form-group">
+                        <mat-form-field appearance="fill">
+                            <i class="ri-quote-text"></i>
+                            <mat-label>Descripción</mat-label>
+                            <input matInput name="descripcion" [(ngModel)]="producto.descripcion">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="techplace-form-group">
+                        <mat-form-field appearance="fill">
+                            <i class="ri-price-tag-3-line"></i>
+                            <mat-label>Precio</mat-label>
+                            <input matInput name="precio" [(ngModel)]="producto.precio">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="techplace-form-group">
+                        <mat-form-field appearance="fill">
+                            <i class="ri-survey-line"></i>
+                            <mat-label>Cantidad</mat-label>
+                            <input matInput name="cantidad" [(ngModel)]="producto.cantidad">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="techplace-form-group without-icon">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Tipo Categoria</mat-label>
+                            <mat-select name="categoria_id" [(ngModel)]="producto.categoria_id">
+                                <mat-option value="1">Procesadores</mat-option>
+                                <mat-option value="2">Monitores</mat-option>
+                                <mat-option value="3">Memoria RAM</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="techplace-form-group without-icon">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Estado</mat-label>
+                            <mat-select name="estado" [(ngModel)]="producto.estado">
+                                <mat-option value="Nuevo">Nuevo</mat-option>
+                                <mat-option value="Usado-Como nuevo">Usado-Como nuevo</mat-option>
+                                <mat-option value="Usado-Buen estado">Usado-Buen estado</mat-option>
+                                <mat-option value="Usado-Aceptable">Usado-Aceptable</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="techplace-form-group">
+                        <button mat-flat-button class="btn2" onclick="document.getElementById('imageUpload').click();">Cargar imagenes</button>
+                        <div class="row pt-15">
+                            <div class="col-3" *ngFor="let image of selectedImages">
+                                <img [src]="getImageUrl(image)" style="width: 150px; height: 150px;" alt="Image">
+                                <button mat-flat-button class="btn3" (click)="removeImage(image)">Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tagus-form-group" style="display: none;">
+                    <input id="imageUpload" type="file" multiple accept="image/*" (change)="onImageSelected($event)">
+                </div>
+            </div>
+            <div *ngIf="validation_message != ''" style="text-align-last: center; color: red;" class="row justify-content-center mt-20" >
+                    <p style="text-align-last: center; color: red;">{{validation_message}}</p>
+            </div>
+            <div class="row justify-content-center mt-20">
+                <div class=" col-lg-4 col-md-4">
+                    <button mat-flat-button class="techplace d-block fw-semibold" (click)="save()">Guardar</button>
+                </div>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>

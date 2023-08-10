@@ -1,0 +1,19 @@
+<div
+    [ngClass]="{'blank-page': router.url === '/error-500' || router.url === '/authentication/reset-password' || router.url === '/authentication/forgot-password' || router.url === '/authentication/login' || router.url === '/authentication/register' || router.url === '/authentication/signin-signup' || router.url === '/authentication/logout' || router.url === '/authentication/confirm-mail' || router.url === '/authentication/lock-screen'}"
+    [class.dark-theme]="true"
+    [class.card-borderd-theme]="true"
+    [class.card-border-radius]="false"
+>
+    <app-sidebar [user]="user"></app-sidebar>
+    <div
+        class="main-content d-flex flex-column"
+        [ngClass]="{'active': isToggled}"
+        [class.right-sidebar]="false"
+        [class.hide-sidebar]="false"
+    >
+        <app-header [user]="user"></app-header>
+        <router-outlet></router-outlet>
+        <div class="flex-grow-1"></div>
+        <app-footer></app-footer>
+    </div>
+</div>

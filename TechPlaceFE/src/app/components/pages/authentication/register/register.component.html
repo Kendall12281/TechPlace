@@ -1,0 +1,73 @@
+<div
+    class="h-100vh  pb-50"
+>
+    <div class="d-table">
+        <div class="d-table-cell">
+            <div class="techplace-form ms-auto me-auto">
+                <div class="title mb-10">
+                    <div class="row">
+                        <img style="height: 90px;" class="border-radius" src="assets/img/logo/logo_large.png" alt="logo-icon">
+                    </div>
+                    <p class="mt-5">Ya tienes una cuenta? <a routerLink="/authentication/login" class="main-color fw-medium">Inicia sesión!</a></p>
+                </div>
+                <form #form="ngForm" (ngSubmit)="register()">
+                    <div class="bg-white border-radius pt-20 ps-20 pe-20">
+                        <div class="techplace-form-group without-icon form-size">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Nombre completo</mat-label>
+                                <input matInput name="name"  [(ngModel)]="user.nombre_completo">
+                            </mat-form-field>
+                        </div>
+                        <div class="techplace-form-group without-icon form-size">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Identificación</mat-label>
+                                <input matInput name="identificacion" [(ngModel)]="user.identificacion">
+                            </mat-form-field>
+                        </div>
+                        <div class="techplace-form-group without-icon form-size">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Correo electronico</mat-label>
+                                <input matInput name="correo_electronico" [(ngModel)]="user.correo_electronico">
+                            </mat-form-field>
+                        </div>
+                        <div class="techplace-form-group without-icon form-size">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Telefono</mat-label>
+                                <input matInput name="numero_telefono" type="text" pattern="[0-9]" maxLength="8" [(ngModel)]="user.numero_telefono">
+                            </mat-form-field>
+                        </div>
+                        <div class="techplace-form-group without-icon form-size">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Contraseña</mat-label>
+                                <input matInput  [type]="hide ? 'password' : 'text'" name="contrasena" [(ngModel)]="user.contrasena">
+                                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                </button>
+                            </mat-form-field>
+                        </div>
+                        <div class="techplace-form-group without-icon form-size">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Repita contraseña</mat-label>
+                                <input matInput [type]="hide ? 'password' : 'text'" name="contrasena_repetir" [(ngModel)]="user.contrasena_repetir">
+                                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                </button>
+                            </mat-form-field>
+                        </div>
+                        <div class="techplace-form-group without-icon text-end">
+                            <span class="me-10"><mat-checkbox name="es_cliente" [(ngModel)]="user.es_cliente">Cliente</mat-checkbox></span>
+                            <span><mat-checkbox name="es_proveedor" [(ngModel)]="user.es_proveedor">Vendedor</mat-checkbox></span>
+                        </div>
+                       
+                    </div>
+                    <button mat-flat-button class="techplace d-block fw-semibold">Registrar</button>
+                    <div *ngIf="validation_message != ''" class="rpw justify-content-center">
+                        <div class="alert ">
+                            <p style="color: red;">{{validation_message}}</p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,66 @@
+<div class="breadcrumb-card mb-25 d-md-flex align-items-center justify-content-space-between">
+    <h5 class="mb-0">Catalago productos</h5>
+    <ol class="breadcrumb mb-0 ps-0">
+        <li class="breadcrumb-item">
+            <a routerLink="/">
+                <i class="ri-home-8-line"></i>
+                Inicio
+            </a>
+        </li>
+        <li class="breadcrumb-item fw-semibold">Productos</li>
+    </ol>
+</div>
+
+<div class="row d-flex align-items-center">
+    <div class="col-lg-3 col-md-3 col-sm-3">
+        <div class="techplace-form-group without-icon">
+            <mat-form-field appearance="fill">
+                <mat-label>Tipo Categoria</mat-label>
+                <mat-select (selectionChange)="onSelectionChangeFilter()" name="categoryId" [(ngModel)]="categoryId">
+                    <mat-option value="0">Todos</mat-option>
+                    <mat-option value="1">Procesadores</mat-option>
+                    <mat-option value="2">Monitores</mat-option>
+                    <mat-option value="3">Memoria RAM</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-3">
+        <div class="techplace-form-group without-icon">
+            <mat-form-field appearance="fill">
+                <mat-label>Ordenar precio de</mat-label>
+                <mat-select (selectionChange)="onSelectionChangeFilter()" name="orderType" [(ngModel)]="orderType">
+                    <mat-option value="des">Menor a mayor</mat-option>
+                    <mat-option value="asc">Mayor a menor</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div *ngFor="let producto of productosFilter" class="col-sm-6 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+        <mat-card class="mb-25 text-center techplace-card" style="height: 360px;">
+            <mat-card-content>
+                <div class="icon bg-gray mb-20 rounded-circle d-inline-block position-relative">
+                    <img *ngIf="producto.fotosproducto[0] != null && producto.fotosproducto[0] != undefined" src="{{producto.fotosproducto[0].foto_Base64}}" style="height: 100px;" class="ms-auto me-auto" alt="seller">
+                    <img *ngIf="producto.fotosproducto[0] == null || producto.fotosproducto[0] == undefined" src="../../../../../assets/img/misc/60x50.png" style="height: 100px;" class="ms-auto me-auto" alt="seller">
+                </div>
+                <h5 class="mb-5 fw-semibold">{{producto.nombre}}</h5>
+                <span class="d-block muted-color">{{producto.categorias?.nombre_categoria}}</span>
+                <div class="btn-box">
+                    <a mat-flat-button routerLink="/product/detail" [queryParams]="{ id: producto.producto_id }" class="gray">Ver detalle</a>
+                </div>
+                <ul class="list d-flex align-items-center justify-content-space-between text-center mb-0">
+                    <li class="muted-color fw-medium down">
+                        <span class="d-block">Disponibles</span>
+                        <span class="gray-color d-inline-block position-relative fw-semibold">{{producto.cantidad}}</span>
+                    </li>
+                    <li class="muted-color fw-medium">
+                        <span class="d-block">Precio</span>
+                        <span class="gray-color d-inline-block position-relative fw-semibold">₡{{producto.precio}}</span>
+                    </li>
+                </ul>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
