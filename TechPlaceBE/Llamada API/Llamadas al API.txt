@@ -1,0 +1,471 @@
+***Pedidos***
+
+*Traer pedidos por un usuario id
+
+Llamada: POST
+/api/pedidos/cliente
+
+Estuctura:
+{
+  "usuario_id" : 3
+}
+
+*Traer detalle de pedido
+
+Llamada:POST
+/api/pedidos/detalle
+
+Estuctura:
+
+{
+  "compra_id": 1
+}
+
+*Crear compra
+Llamada:POST
+api/pedidos/guardar
+
+
+Estuctura:
+ {"compra":[
+    {
+       "usuario_id": 3,
+    "direccion_id": 1,
+    "metodo_pago_id": 1
+    }
+    ],
+    "detallescompra":[
+       {
+    "producto": 1,
+    "cantidad": 10,
+    "subtotal": 225000,
+    "impuesto": 1000,
+    "total": 226000
+  },
+  {
+
+    "producto": 2,
+    "cantidad": 1,
+    "subtotal": 165000,
+    "impuesto": 1000,
+    "total": 166000
+  },
+  {
+    "producto": 3,
+    "cantidad": 1,
+    "subtotal": 14000,
+    "impuesto": 1000,
+    "total": 141000
+  }
+      ]
+}
+
+***Productos***
+
+*Traer todos los productos
+
+Llamada: GET
+/api/productos/
+
+*Traer los productos de un vendedor
+
+Llamada:POST
+api/productos/vendedor
+
+Estuctura:
+
+{
+  "usuario_id" : 2
+}
+
+*Traer detalle producto
+
+Llamada:POST
+/api/productos/detalle
+
+Estuctura:
+
+{
+  "producto_id" : 2
+}
+
+*Crear producto
+
+Llamada:POST
+/api/productos/guardar
+
+Estuctura:
+-Se puede insertar sin imagenes (omitiendo objeto fotosproduto)
+{
+"producto":[
+  {
+    "nombre": "AMD ",
+    "descripcion":
+      "Cores: 8 Threads: 16 Cache: 8/32MB (L2/L3) Socket: AM5 Consumo: 105W  Modelo de gráficos: AMD Radeon™ Graphics Numero de núcleos de GPU: 2",
+    "precio": 225000,
+    "cantidad": 20,
+    "categoria_id": 1,
+    "estado": "Nuevo",
+     "usuario_id":2
+}
+],
+"fotosproducto":[
+  {
+    "foto_Base64": "aqui va la imagen convertida a Base64"
+  },
+  {
+    "foto_Base64": "aqui va la imagen convertida a Base64"
+  }
+]
+}
+
+*Modificar producto
+
+Llamada:POST
+/api/productos/modificar
+
+Estuctura:
+
+{
+"producto":[
+  {
+    "producto_id":1,
+    "nombre": "AMD testing 123",
+    "descripcion":
+      "Cores: 8 Threads: 16 Cache: 8/32MB (L2/L3) Socket: AM5 Consumo: 105W  Modelo de gráficos: AMD Radeon™ Graphics Numero de núcleos de GPU: 2",
+    "precio": 225000,
+    "cantidad": 20,
+    "categoria_id": 1,
+    "estado": "Nuevo",
+    "usuario_id":2
+    
+}
+],
+
+"fotosproducto":[
+  {
+    "foto_id": 1,
+    "producto_id":1,
+    "foto_Base64": "testing1"
+  },
+  {
+    "foto_id": 2,
+    "producto_id":1,
+    "foto_Base64": "testing2"
+  },
+  {
+    "foto_id": 3,
+    "producto_id":1,
+    "foto_Base64": "testing3"
+  }
+  ]
+
+}
+
+*LOGIN
+
+Llamada:POST
+/api/iniciarSesion
+
+Estuctura:
+{
+  "correo_electronico" : "kmontenegro@est.utn.ac.cr",
+  "contrasena" : "Planta23."
+}
+
+Respuesta:
+
+{
+  "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjoxLCJub21icmVfY29tcGxldG8iOiJLZW5kYWxsIE1vbnRlbmVncm8gU2VndXJhIiwiaWRlbnRpZmljYWNpb24iOiIxLTE4MTUtMDg1NyIsIm51bWVyb190ZWxlZm9ubyI6IjcyNjktOTQ3OSIsImNvcnJlb19lbGVjdHJvbmljbyI6Imttb250ZW5lZ3JvQGVzdC51dG4uYWMuY3IiLCJyb2xfaWQiOjEsImRlc2FjdGl2YWRvIjpmYWxzZSwibm9tYnJlX3JvbCI6IkFETUlOSVNUUkFET1IiLCJpYXQiOjE2ODgzMDU0MzV9.8gxZ-25gIinJ-ETDftDbz_mvBYz_j6SQE4WOiRw7ZyA",
+  "usuario": {
+    "usuario_id": 1,
+    "nombre_completo": "Kendall Montenegro Segura",
+    "identificacion": "1-1815-0857",
+    "numero_telefono": "7269-9479",
+    "correo_electronico": "kmontenegro@est.utn.ac.cr",
+    "rol_id": 1,
+    "desactivado": false,
+    "nombre_rol": "ADMINISTRADOR"
+  }
+}
+
+*REGISTRO
+
+Llamada:POST
+/api/usuarios/crearUsuario
+
+Estuctura:
+{
+  	"nombre_completo" : "Kendall Montenegro Segura",
+	"identificacion" : "1-1815-0857",
+	"numero_telefono" : "7269-9479",
+	"correo_electronico" : "test@test2.com",
+	"contrasena" : "Test123.",
+	"rolNombre" : "ADMINISTRADOR"
+}
+
+Respuesta:
+{
+  "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjo2LCJub21icmVfY29tcGxldG8iOiJLZW5kYWxsIE1vbnRlbmVncm8gU2VndXJhIiwiaWRlbnRpZmljYWNpb24iOiIxLTE4MTUtMDg1NyIsIm51bWVyb190ZWxlZm9ubyI6IjcyNjktOTQ3OSIsImNvcnJlb19lbGVjdHJvbmljbyI6InRlc3RAdGVzdDIuY29tIiwiZGVzYWN0aXZhZG8iOmZhbHNlLCJub21icmVfcm9sIjoiQURNSU5JU1RSQURPUiIsImlhdCI6MTY4ODMwOTA0NX0.YOk4r1Xoyf6KPyxX8SI8zrX8NG8WbwNIXkep7UbzbGY",
+  "user": {
+    "usuario_id": 6,
+    "nombre_completo": "Kendall Montenegro Segura",
+    "identificacion": "1-1815-0857",
+    "numero_telefono": "7269-9479",
+    "correo_electronico": "test@test2.com",
+    "desactivado": false,
+    "nombre_rol": "ADMINISTRADOR"
+  }
+}
+
+*Dashboard
+
+*Cantidad Compras Dia
+
+Llamada:GET
+api/dashboard/comprasDia
+
+Respuesta:
+
+{
+  "cantidad_compras": 1
+}
+
+*Top 5 productos más comprado en el mes.
+
+Llamada:GET
+/api/dashboard/topProductos
+
+Respuesta:
+*Nota: Solo salen 3 porque solo hay una compra con 3 productos
+{
+  "top_5_productos_Mes": [
+    {
+      "producto_id": 1,
+      "nombre": "AMD Ryzen 7 7700X",
+      "descripcion": "Cores: 8 Threads: 16 Cache: 8/32MB (L2/L3) Socket: AM5 Consumo: 105W  Modelo de gráficos: AMD Radeon™ Graphics Numero de núcleos de GPU: 2",
+      "precio": "225000",
+      "total_cantidad_vendidos_mes": "1"
+    },
+    {
+      "producto_id": 2,
+      "nombre": "MSI Optix G27C4X - 27 - 1ms - 250 Hz",
+      "descripcion": "Marca: MSI Tamaño: 27 pulgadas Resolucion: 1920 x 1080 Tipo de Panel:  VA Frecuencia Vertical: 250 Hz Tiempo de Respuesta: 1 ms Entradas:  HDMI  - DisplayPort",
+      "precio": "165000",
+      "total_cantidad_vendidos_mes": "1"
+    },
+    {
+      "producto_id": 3,
+      "nombre": "Adata XPG Spectrix D41 RGB 8 GB DDR4 3200 - Negro",
+      "descripcion": "Velocidad: DDR4 3200 Capacidad: 8 GB Latencia CAS: 16 Voltaje: 1.35V LED RGB",
+      "precio": "14000",
+      "total_cantidad_vendidos_mes": "1"
+    }
+  ]
+}
+
+*Top 5 vendedores.
+
+Llamada:GET
+api/dashboard/topVendedores
+
+Respuesta:
+*Nota solo hay un vendedor debido a que solo hay un vendedor calificado
+{
+  "top_5_vendedores": [
+    {
+      "vendedor_id": 2,
+      "nombre_completo": "Arnoldo Alvarado Serrano",
+      "avg_rating": "3.6667"
+    }
+  ]
+}
+
+*Top 5 Peores vendedores.
+
+Llamada:GET
+api/dashboard/peoresVendedores
+
+Respuesta:
+*Nota: Solo hay 2 evaluaciones en DB
+{
+  "top_peores_5_vendedores": [
+    {
+      "vendedor_id": 3,
+      "nombre_completo": "Carmen Sequira",
+      "avg_rating": "1"
+    },
+    {
+      "vendedor_id": 2,
+      "nombre_completo": "Arnoldo Alvarado Serrano",
+      "avg_rating": "3.6667"
+    }
+  ]
+}
+
+*vendedores
+*Producto más vendido vendedor.
+
+Llamada:GET
+api/dashboard/vendedor/productoMasVendido
+
+Respuesta:
+*Nota: El jwt ya trae el usuario, si el usuario es diferente del tipo vendedor--> error: "Insuficientes permisos"
+{
+  "producto_mas_vendido": [
+    {
+      "producto_id": 1,
+      "nombre": "AMD Ryzen 7 7700X",
+      "descripcion": "Cores: 8 Threads: 16 Cache: 8/32MB (L2/L3) Socket: AM5 Consumo: 105W  Modelo de gráficos: AMD Radeon™ Graphics Numero de núcleos de GPU: 2",
+      "precio": "225000",
+      "total_vendido": "4"
+    }
+  ]
+}
+
+*Cliente mas compras.
+
+Llamada:GET
+api/dashboard/vendedor/clienteMasCompras
+
+Respuesta:
+{
+  "cliente_mas_compras": [
+    {
+      "usuario_id": 3,
+      "nombre_completo": "Carmen Sequira",
+      "total_cantidad": "12"
+    }
+  ]
+}
+
+*usuarios
+
+*Obtener usuario por id
+
+Llamada:POST
+api/usuarios/obtenerUsuario
+
+Estuctura:
+{
+  "usuario_id":2
+}
+
+Respuesta:
+Nota: Requiere ser ADMINISTRADOR
+
+{
+  "usuario_id": 2,
+  "nombre_completo": "Arnoldo Alvarado Serrano",
+  "identificacion": "1-155-6857",
+  "numero_telefono": "7269-9479",
+  "correo_electronico": "arnoldo@gmail.com",
+  "rol_id": 2,
+  "desactivado": false,
+  "nombre_rol": "VENDEDOR"
+}
+
+*Mantenimiento usuario
+
+
+Llamada:POST
+api/usuarios/mantenimiento
+
+*Crear usuario sin listas (direcciones o tipos de pago)
+Estuctura:
+
+{
+  "usuario_id":0,
+  "nombre_completo" : "Kendall Montenegro ",
+	"identificacion" : "1-1815-0857",
+	"numero_telefono" : "7269-9479",
+	"correo_electronico" : "test@test2.com",
+	"contrasena" : "Test123.",
+	"rolNombre" : "ADMINISTRADOR"
+}
+
+*Actualizar usuario sin listas (direcciones o tipos de pago)
+Estuctura:
+{
+  "usuario_id":1,
+  "nombre_completo" : "Kendall Montenegro S",
+	"identificacion" : "1-1815-0857",
+	"numero_telefono" : "7269-9479",
+	"correo_electronico" : "test@test2.com",
+	"contrasena" : "Test123.",
+	"rolNombre" : "ADMINISTRADOR"
+}
+
+*Crear usuario con listas (con direcciones o tipos de pago)
+Estuctura:
+{
+  "usuario_id": 0,
+  "nombre_completo": "Kendall Montenegro S",
+  "identificacion": "1-1815-0857",
+  "numero_telefono": "7269-9479",
+  "correo_electronico": "test@test.com",
+  "contrasena": "Test123.",
+  "rolNombre": "ADMINISTRADOR",
+  "lista_direccion": [
+    {
+      "provincia": "Alajuela",
+      "canton": "Alajuela",
+      "distrito": "San Rafael",
+      "direccion_exacta": "Urbanizacion Los Portones",
+      "codigo_postal": "2018",
+      "telefono": "7269-6157"
+    }
+  ],
+  "lista_metodo_pago": [
+    {
+      "tipo_pago": "Tarjeta Credito",
+      "proveedor": "VISA",
+      "numero_cuenta": "GB33BUKB20201555555555",
+      "fecha_expiracion": "04/26"
+    }
+  ]
+}
+
+*Actualizar usuario con listas (con direcciones o tipos de pago)
+Estuctura:
+{
+  "usuario_id": 1,
+  "nombre_completo": "Kendall Montenegro Segura",
+  "identificacion": "1-1815-0857",
+  "numero_telefono": "7269-9479",
+  "correo_electronico": "test@test.com",
+  "contrasena": "Test123.",
+  "rolNombre": "ADMINISTRADOR",
+  "lista_direccion": [
+    {
+      "direccion_id":1,
+      "provincia": "Alajuela ",
+      "canton": "Alajuela",
+      "distrito": "San Rafael",
+      "direccion_exacta": "Urbanizacion Los Portones",
+      "codigo_postal": "2018",
+      "telefono": "7269-6157"
+    }
+  ],
+  "lista_metodo_pago": [
+    {
+      "metodo_pago_id":1,
+      "tipo_pago": "Tarjeta Credito",
+      "proveedor": "VISA",
+      "numero_cuenta": "GB33BUKB20201555555555",
+      "fecha_expiracion": "04/26"
+    }
+  ]
+}
+
+*evaluaciones
+
+*Existe evaluacion
+
+api/evaluaciones/existeEvaluacion
+nota: devuelve un boolean
+Estuctura:
+{
+  "compra_id": 4
+}
+

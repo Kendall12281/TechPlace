@@ -1,0 +1,15 @@
+***dependencias***
+npm install dotenv express cors morgan chalk nodemon passport-jwt bcrypt jsonwebtoken --save-dev
+
+npm install prisma --save-dev
+
+**prisma***
+npx prisma init
+
+npx prisma generate
+
+
+
+**generar prisma schema desde mysql**
+ npx prisma introspect
+

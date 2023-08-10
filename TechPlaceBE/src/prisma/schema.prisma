@@ -1,0 +1,182 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model categorias {
+  categoria_id     Int         @id @default(autoincrement())
+  nombre_categoria String?     @db.VarChar(255)
+  productos        productos[]
+}
+
+model compras {
+  compra_id        Int              @id @default(autoincrement())
+  usuario_id       Int?
+  direccion_id     Int?
+  metodo_pago_id   Int?
+  estado_pedido_id Int?
+  fecha_compra     DateTime?        @default(dbgenerated("(curdate())")) @db.Date
+  hora_compra      DateTime?        @default(dbgenerated("(curtime())")) @db.Time(0)
+  usuarios         usuarios?        @relation(fields: [usuario_id], references: [usuario_id], onDelete: NoAction, onUpdate: NoAction, map: "compras_ibfk_1")
+  direcciones      direcciones?     @relation(fields: [direccion_id], references: [direccion_id], onDelete: NoAction, onUpdate: NoAction, map: "compras_ibfk_2")
+  metodospago      metodospago?     @relation(fields: [metodo_pago_id], references: [metodo_pago_id], onDelete: NoAction, onUpdate: NoAction, map: "compras_ibfk_3")
+  estadopedido     estadopedido?    @relation(fields: [estado_pedido_id], references: [estado_pedido_id], onDelete: NoAction, onUpdate: NoAction, map: "compras_ibfk_4")
+  detallescompra   detallescompra[]
+  evaluaciones     evaluaciones[]
+
+  @@index([direccion_id], map: "direccion_id")
+  @@index([estado_pedido_id], map: "estado_pedido_id")
+  @@index([metodo_pago_id], map: "metodo_pago_id")
+  @@index([usuario_id], map: "usuario_id")
+}
+
+model detallescompra {
+  detalle_compra_id Int        @id @default(autoincrement())
+  usuario_id        Int?
+  compra_id         Int?
+  producto_id       Int?
+  cantidad          Int?
+  subtotal          Decimal?   @db.Decimal(10, 2)
+  impuesto          Decimal?   @db.Decimal(10, 2)
+  total             Decimal?   @db.Decimal(10, 2)
+  usuarios          usuarios?  @relation(fields: [usuario_id], references: [usuario_id], onDelete: NoAction, onUpdate: NoAction, map: "detallescompra_ibfk_1")
+  compras           compras?   @relation(fields: [compra_id], references: [compra_id], onDelete: NoAction, onUpdate: NoAction, map: "detallescompra_ibfk_2")
+  productos         productos? @relation(fields: [producto_id], references: [producto_id], onDelete: NoAction, onUpdate: NoAction, map: "detallescompra_ibfk_3")
+
+  @@index([compra_id], map: "compra_id")
+  @@index([producto_id], map: "producto_id")
+  @@index([usuario_id], map: "usuario_id")
+}
+
+model direcciones {
+  direccion_id     Int       @id @default(autoincrement())
+  usuario_id       Int?
+  provincia        String?   @db.VarChar(255)
+  provinciaid      Int?
+  canton           String?   @db.VarChar(255)
+  cantonid         Int?
+  distrito         String?   @db.VarChar(255)
+  distritoid       Int?
+  direccion_exacta String?   @db.VarChar(255)
+  codigo_postal    String?   @db.VarChar(255)
+  telefono         String?   @db.VarChar(255)
+  eliminado        Boolean   @default(false)
+  compras          compras[]
+  usuarios         usuarios? @relation(fields: [usuario_id], references: [usuario_id], onDelete: NoAction, onUpdate: NoAction, map: "direcciones_ibfk_1")
+
+  @@index([usuario_id], map: "usuario_id")
+}
+
+model estadopedido {
+  estado_pedido_id Int       @id @default(autoincrement())
+  nombre_estado    String?   @db.VarChar(255)
+  compras          compras[]
+}
+
+model evaluaciones {
+  evaluacion_id                               Int       @id @default(autoincrement())
+  compra_id                                   Int?
+  vendedor_id                                 Int?
+  cliente_id                                  Int?
+  calificacion_cliente                        Int?
+  fecha_evaluacion                            DateTime? @default(dbgenerated("(curdate())")) @db.Date
+  comentario_cliente                          String?   @db.VarChar(255)
+  calificacion_vendedor                       Int?
+  comentario_vendedor                         String?   @db.VarChar(255)
+  compras                                     compras?  @relation(fields: [compra_id], references: [compra_id], onDelete: NoAction, onUpdate: NoAction, map: "evaluaciones_ibfk_1")
+  usuarios_evaluaciones_vendedor_idTousuarios usuarios? @relation("evaluaciones_vendedor_idTousuarios", fields: [vendedor_id], references: [usuario_id], onDelete: NoAction, onUpdate: NoAction, map: "evaluaciones_ibfk_2")
+  usuarios_evaluaciones_cliente_idTousuarios  usuarios? @relation("evaluaciones_cliente_idTousuarios", fields: [cliente_id], references: [usuario_id], onDelete: NoAction, onUpdate: NoAction, map: "evaluaciones_ibfk_3")
+
+  @@index([cliente_id], map: "cliente_id")
+  @@index([compra_id], map: "compra_id")
+  @@index([vendedor_id], map: "vendedor_id")
+}
+
+model fotosproducto {
+  foto_id     Int        @id @default(autoincrement())
+  producto_id Int?
+  foto_Base64 String?    @db.LongText
+  productos   productos? @relation(fields: [producto_id], references: [producto_id], onDelete: NoAction, onUpdate: NoAction, map: "fotosproducto_ibfk_1")
+
+  @@index([producto_id], map: "producto_id")
+}
+
+model metodospago {
+  metodo_pago_id   Int       @id @default(autoincrement())
+  usuario_id       Int?
+  tipo_pago        String?   @db.VarChar(255)
+  proveedor        String?   @db.VarChar(255)
+  numero_cuenta    String?   @db.VarChar(255)
+  fecha_expiracion String?   @db.VarChar(255)
+  eliminado        Boolean   @default(false)
+  compras          compras[]
+  usuarios         usuarios? @relation(fields: [usuario_id], references: [usuario_id], onDelete: NoAction, onUpdate: NoAction, map: "metodospago_ibfk_1")
+
+  @@index([usuario_id], map: "usuario_id")
+}
+
+model preguntasproducto {
+  preguntas_producto_id Int        @id @default(autoincrement())
+  producto_id           Int?
+  usuario_id            Int?
+  comentario_usuario    String?    @db.VarChar(255)
+  respuesta_vendedor    String?    @db.VarChar(255)
+  fecha_pregunta        DateTime?  @default(dbgenerated("(curdate())")) @db.Date
+  productos             productos? @relation(fields: [producto_id], references: [producto_id], onDelete: NoAction, onUpdate: NoAction, map: "preguntasproducto_ibfk_1")
+  usuarios              usuarios?  @relation(fields: [usuario_id], references: [usuario_id], onDelete: NoAction, onUpdate: NoAction, map: "preguntasproducto_ibfk_2")
+
+  @@index([producto_id], map: "producto_id")
+  @@index([usuario_id], map: "usuario_id")
+}
+
+model productos {
+  producto_id       Int                 @id @default(autoincrement())
+  usuario_id        Int?
+  nombre            String?             @db.VarChar(255)
+  descripcion       String?             @db.VarChar(255)
+  precio            Decimal?            @db.Decimal(10, 2)
+  cantidad          Int?
+  categoria_id      Int?
+  estado            String?             @db.VarChar(255)
+  activado          Int?                @default(1)
+  detallescompra    detallescompra[]
+  fotosproducto     fotosproducto[]
+  preguntasproducto preguntasproducto[]
+  categorias        categorias?         @relation(fields: [categoria_id], references: [categoria_id], onDelete: NoAction, onUpdate: NoAction, map: "productos_ibfk_1")
+  usuarios          usuarios?           @relation(fields: [usuario_id], references: [usuario_id], onDelete: NoAction, onUpdate: NoAction, map: "productos_ibfk_2")
+
+  @@index([categoria_id], map: "categoria_id")
+  @@index([usuario_id], map: "usuario_id")
+}
+
+model roles {
+  rol_id     Int        @id @default(autoincrement())
+  nombre_rol String?    @db.VarChar(255)
+  usuarios   usuarios[]
+}
+
+model usuarios {
+  usuario_id                                      Int                 @id @default(autoincrement())
+  nombre_completo                                 String?             @db.VarChar(255)
+  identificacion                                  String?             @db.VarChar(255)
+  numero_telefono                                 String?             @db.VarChar(255)
+  correo_electronico                              String?             @db.VarChar(255)
+  contrasena                                      String?             @db.VarChar(255)
+  rol_id                                          Int?
+  desactivado                                     Boolean             @default(false)
+  compras                                         compras[]
+  detallescompra                                  detallescompra[]
+  direcciones                                     direcciones[]
+  evaluaciones_evaluaciones_vendedor_idTousuarios evaluaciones[]      @relation("evaluaciones_vendedor_idTousuarios")
+  evaluaciones_evaluaciones_cliente_idTousuarios  evaluaciones[]      @relation("evaluaciones_cliente_idTousuarios")
+  metodospago                                     metodospago[]
+  preguntasproducto                               preguntasproducto[]
+  productos                                       productos[]
+  roles                                           roles?              @relation(fields: [rol_id], references: [rol_id], onDelete: NoAction, onUpdate: NoAction, map: "usuarios_ibfk_1")
+
+  @@index([rol_id], map: "rol_id")
+}
